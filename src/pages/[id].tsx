@@ -3,9 +3,11 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import Head from "next/head";
 import "../../app/globals.css";
+import Image from "next/image";
+import { GetServerSidePropsContext } from "next";
 
-export async function getServerSideProps(context: any) {
-  const { id } = context.params;
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const { id } = context.params as { id: string };
   const res = await fetch(
     `https://dev2api.obriencrm.com/v1/Website/inmueble/${id}?tk=${process.env.NEXT_PUBLIC_TOKEN}`
   );
@@ -22,7 +24,8 @@ export async function getServerSideProps(context: any) {
   };
 }
 
-const Detail = ({ detail }: any) => {
+const Detail = (props: Record<string, Array<Record<string, string>>>) => {
+  const { detail } = props;
   const router = useRouter();
   const { id } = router.query;
 
@@ -39,10 +42,12 @@ const Detail = ({ detail }: any) => {
       </Head>
       <div className="max-w-3xl mx-auto bg-white rounded-lg shadow-md overflow-hidden mt-8">
         <div className="h-64 w-full relative">
-          <img
+          <Image
             src={detail?.[0]?.imagenesGaleria?.[0]}
             alt="portada"
             className="w-full h-full object-cover"
+            width={500}
+            height={300}
           />
         </div>
 

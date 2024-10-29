@@ -4,13 +4,14 @@ import type { InferGetServerSidePropsType } from "next";
 import { ChangeEvent, useState } from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
+import { GetServerSidePropsContext } from "next";
 
 type DataType = {
   data: Array<Record<string, string | number>>;
-  meta: any;
+  meta: Record<string, unknown>;
 };
 
-export const getServerSideProps = async (context: any) => {
+export const getServerSideProps = async (context: GetServerSidePropsContext) => {
   const page = context.query.page || 1;
   const search = context.query.search || "";
   const res = await fetch(
@@ -38,7 +39,7 @@ const App = ({
   const router = useRouter();
 
   const handleNext = () => {
-    if (page > meta?.total) return;
+    if (page > Number(meta?.total)) return;
     router.push(`/?page=${page + 1}&search=${search}`);
     setPage((prev) => prev + 1);
   };

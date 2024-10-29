@@ -1,11 +1,12 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { ChangeEvent } from "react";
 
 export const SearchInput = ({
   handleInput,
   submit,
 }: {
-  handleInput: (event: any) => void;
+  handleInput: (event: ChangeEvent<HTMLInputElement>) => void;
   submit: () => void;
 }) => {
   return (
